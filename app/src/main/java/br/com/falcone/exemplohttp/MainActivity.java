@@ -16,6 +16,12 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -36,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     ServicoLoad mService;
     boolean mBound = false;
-
+    ArrayAdapter mAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +97,23 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        ListView lstArtigos = (ListView)findViewById(R.id.lstArtigos);
+        lstArtigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long id) {
+                Artigo artigo = (Artigo)MainActivity.this.mAdapter.getItem(posicao);
+                LerArtigo(artigo);
+            }
+        });
+
+    }
+
+    private void LerArtigo(Artigo artigo) {
+        Intent i = new Intent(getApplicationContext(), LerArtigoActivity.class);
+        if (i.resolveActivity(getPackageManager()) != null) {
+            startActivity(i);
+        }
     }
 
     @Override
@@ -167,20 +190,40 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         @Override
         protected void onPostExecute(List<Artigo> artigos) {
             super.onPostExecute(artigos);
 
 
             CarregarDataUltimaAtualizacao();
-            TextView lbDados = (TextView) findViewById(R.id.lbDados);
+
+            ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_2, android.R.id.text1, artigos) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                    TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                    text1.setText(((Artigo)this.getItem(position)).getAutor());
+                    text2.setText(((Artigo)this.getItem(position)).getTitulo());
+                    //text2.setText(artigos.get(position).getAge());
+                    return view;
+                }
+            };
+
+            mAdapter = adapter;
+            ListView lstDados = (ListView) findViewById(R.id.lstArtigos);
+            lstDados.setAdapter(adapter);
+
+            /*TextView lbDados = (TextView) findViewById(R.id.lbDados);
             String texto = "";
             for(Artigo artigo : artigos){
                 texto += artigo.getDescricao() + "\n";
             }
 
-
-            lbDados.setText(texto);
+            lbDados.setText(texto);*/
             //Snackbar.make(MainActivity.this, "Replace with your own action", Snackbar.LENGTH_LONG)
       //              .setAction("Action", null).show();
         }
