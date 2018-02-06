@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -12,17 +13,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.TwoLineListItem;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -46,31 +46,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.principal_activity);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
         //if(Util.IsConnected(getApplicationContext()))
         //startService(new Intent(this, ServicoLoad.class));
 
 
         CarregarDataUltimaAtualizacao();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 new AssyncLoad().execute(TIPO_COMPONENTE_NATIVO);
-                /*List<Artigo> artigos = Util.CarregarArtigos();
-                TextView lbDados = view.findViewById(R.id.lbDados);
-
-                String texto = "";
-                for(Artigo artigo : artigos){
-                    texto += artigo.getDescricao();
-                }
-
-
-                lbDados.setText(texto);*/
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -96,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         ListView lstArtigos = (ListView)findViewById(R.id.lstArtigos);
         lstArtigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,10 +97,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button btCarregar = (Button)findViewById(R.id.btCarregar);
+        btCarregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new AssyncLoad().execute(TIPO_COMPONENTE_RETROFIT);
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+            }
+        });
     }
 
     private void LerArtigo(Artigo artigo) {
         Intent i = new Intent(getApplicationContext(), LerArtigoActivity.class);
+        i.putExtra("artigo", artigo);
         if (i.resolveActivity(getPackageManager()) != null) {
             startActivity(i);
         }
@@ -203,6 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
+                    if(view instanceof TwoLineListItem){
+                        ((TwoLineListItem)view).setBackgroundColor(Color.LTGRAY);
+                    }
                     TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                     TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 

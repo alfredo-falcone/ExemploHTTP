@@ -19,6 +19,9 @@ public interface ArtigoDao {
     @Query("SELECT * FROM artigo WHERE id IN (:artigoIds)")
     List<Artigo> loadAllByIds(int[] artigoIds);
 
+    @Query("SELECT * FROM artigo WHERE id = :artigoId")
+    Artigo getById(int artigoId);
+
     @Query("SELECT * FROM artigo WHERE titulo LIKE :first AND "
             + "titulo LIKE :last LIMIT 1")
     Artigo findByTitle(String first, String last);

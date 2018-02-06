@@ -13,21 +13,42 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="@dimen/fab_margin"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/lbNomeDescricao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingTop="@dimen/fab_margin"
+        app:layout_constraintTop_toBottomOf="@id/lbTituloArtigo"
+        android:text="Artigo:"/>
 
     <TextView
         android:id="@+id/lbDescricaoArtigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/lbNomeDescricao"
+        android:paddingTop="@dimen/fab_margin"
+        app:layout_constraintTop_toBottomOf="@id/lbNomeDescricao" />
+
+    <TextView
+        android:id="@+id/lbNomeAutorArtigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbTituloArtigo" />
+        app:layout_constraintTop_toBottomOf="@id/lbDescricaoArtigo"
+        android:text="Autor:"/>
 
     <TextView
         android:id="@+id/lbAutorArtigo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lbDescricaoArtigo" />
+        app:layout_constraintLeft_toRightOf="@id/lbNomeAutorArtigo"
+        app:layout_constraintTop_toBottomOf="@id/lbNomeAutorArtigo" />
 
 
     <!-- Os controles abaixo são meramente ilustrativos. Apenas para aumentar o layout-->
@@ -52,7 +73,7 @@
         android:id="@+id/btDenunciar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toRightOf="@id/btRate"
+        app:layout_constraintLeft_toRightOf="@id/rateBar"
         android:text="Denunciar"
         app:layout_constraintTop_toBottomOf="@id/rateBar"/>
 

@@ -5,13 +5,14 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Calendar;
+import java.io.Serializable;
 
 /**
  * Created by Alfredo on 12/08/2017.
  */
+
 @Entity
-public class Artigo {
+public class Artigo implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
